@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Morgan Estate — Character Dossiers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D5A3;
+    --gold-dark: #8B6914;
+    --cream: #F5EDD8;
+    --cream-dark: #EAD9B5;
+    --ink: #1A1208;
+    --ink-soft: #3D2E0E;
+    --ink-faded: #6B5630;
+    --blood: #8B1A1A;
+    --blood-light: #C24B4B;
+    --sepia: #7A5C2E;
+    --paper: #FAF3E0;
+    --paper-dark: #EFE3C2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #110E06;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,168,76,0.025) 60px, rgba(201,168,76,0.025) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,168,76,0.025) 60px, rgba(201,168,76,0.025) 61px);
+    font-family: 'Libre Baskerville', serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .masthead { text-align: center; padding: 52px 20px 36px; }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 700; line-height: 1.1;
+  }
+  .masthead h2 {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(0.95rem, 2.2vw, 1.35rem);
+    color: var(--gold-light); font-style: italic; letter-spacing: 0.04em; margin-top: 6px;
+  }
+  .masthead-sub {
+    font-size: 0.72rem; color: var(--gold-dark);
+    letter-spacing: 0.28em; text-transform: uppercase; margin-top: 5px;
+  }
+  .rule {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    margin: 16px auto; width: 80%; max-width: 680px;
+  }
+  .rule::before, .rule::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+  }
+  .diamond { width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); display: inline-block; }
+  .stamp {
+    display: inline-block; border: 3px double var(--blood); color: var(--blood);
+    font-family: 'Playfair Display', serif; font-size: 0.8rem;
+    letter-spacing: 0.28em; text-transform: uppercase; padding: 5px 16px;
+    transform: rotate(-2.5deg); margin-top: 18px; opacity: 0.9;
+  }
+
+  .nav-bar {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 5px; padding: 18px 16px; max-width: 980px; margin: 0 auto;
+  }
+  .nav-btn {
+    background: transparent; border: 1px solid #4A3510; color: var(--gold-light);
+    font-family: 'Playfair Display', serif; font-size: 0.68rem;
+    letter-spacing: 0.13em; text-transform: uppercase; padding: 6px 13px;
+    cursor: pointer; transition: all 0.18s ease;
+  }
+  .nav-btn:hover, .nav-btn.active { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  .sheets-wrap { max-width: 880px; margin: 0 auto; padding: 0 18px; }
+
+  .sheet { display: none; animation: fadeUp 0.35s ease; }
+  .sheet.on { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .paper {
+    background: var(--paper); border: 1px solid #B8922A;
+    box-shadow: 0 6px 48px rgba(0,0,0,0.55), inset 0 0 80px rgba(201,168,76,0.03);
+    position: relative; overflow: hidden; margin-bottom: 28px;
+  }
+  .paper::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-dark));
+  }
+  .co { position: absolute; width: 32px; height: 32px; opacity: 0.55; }
+  .co svg { width: 100%; height: 100%; }
+  .co.tl { top: 9px; left: 9px; }
+  .co.tr { top: 9px; right: 9px; transform: scaleX(-1); }
+  .co.bl { bottom: 9px; left: 9px; transform: scaleY(-1); }
+  .co.br { bottom: 9px; right: 9px; transform: scale(-1,-1); }
+
+  .ph {
+    padding: 34px 48px 22px; border-bottom: 1px solid var(--cream-dark);
+    display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start;
+  }
+  .char-name { font-family: 'Playfair Display', serif; font-size: clamp(1.55rem, 4vw, 2.5rem); color: var(--ink); font-weight: 700; line-height: 1.1; }
+  .char-sub { font-family: 'IM Fell English', serif; font-style: italic; font-size: 0.95rem; color: var(--sepia); margin-top: 4px; }
+  .char-sub b { font-style: normal; color: var(--gold-dark); font-weight: 400; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 11px; }
+  .tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid currentColor; padding: 2px 8px; font-family: 'Libre Baskerville', serif; }
+  .tg { color: var(--gold-dark); } .tb { color: var(--blood); } .ts { color: var(--sepia); }
+  .mono {
+    width: 74px; height: 74px; border: 2px solid var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 1.8rem;
+    color: var(--gold); font-weight: 700; flex-shrink: 0; background: rgba(201,168,76,0.05);
+  }
+
+  .pb { padding: 26px 48px 34px; }
+  .sec { margin-bottom: 26px; }
+  .sec-title {
+    font-family: 'Playfair Display', serif; font-size: 0.66rem; letter-spacing: 0.34em;
+    text-transform: uppercase; color: var(--gold-dark); padding-bottom: 6px;
+    border-bottom: 1px solid var(--cream-dark); margin-bottom: 13px;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .sec-title::before { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--gold); }
+  .sec p { font-size: 0.91rem; line-height: 1.88; color: var(--ink-soft); text-align: justify; hyphens: auto; }
+  .sec p + p { margin-top: 9px; }
+
+  .div { display: flex; align-items: center; gap: 11px; margin: 18px 0; }
+  .div::before, .div::after { content: ''; flex: 1; height: 1px; background: var(--cream-dark); }
+  .div span { color: var(--gold); font-size: 0.75rem; }
+
+  .clue {
+    background: var(--cream-dark); border-left: 3px solid var(--gold);
+    padding: 13px 17px; margin-top: 13px;
+    font-size: 0.87rem; line-height: 1.72; color: var(--ink-soft); font-style: italic;
+  }
+  .clue b {
+    font-style: normal; color: var(--gold-dark); font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 5px;
+  }
+
+  .clue2 {
+    background: rgba(139,26,26,0.05); border-left: 3px solid var(--blood);
+    padding: 13px 17px; margin-top: 13px;
+    font-size: 0.87rem; line-height: 1.72; color: var(--ink-soft); font-style: italic;
+  }
+  .clue2 b {
+    font-style: normal; color: var(--blood-light); font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 5px;
+  }
+
+  .pf {
+    border-top: 1px solid var(--cream-dark); padding: 14px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.65rem; color: var(--ink-faded); letter-spacing: 0.14em; text-transform: uppercase;
+  }
+
+  @media (max-width: 580px) {
+    .ph { padding: 22px 22px 18px; grid-template-columns: 1fr; }
+    .pb { padding: 18px 22px 26px; }
+    .pf { padding: 12px 22px; flex-direction: column; gap: 3px; text-align: center; }
+    .mono { width: 58px; height: 58px; font-size: 1.4rem; }
+  }
+
+  /* ── LOCK SCREEN ── */
+  .lock-overlay {
+    position: fixed; inset: 0; z-index: 999;
+    background: #110E06;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,168,76,0.025) 60px, rgba(201,168,76,0.025) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,168,76,0.025) 60px, rgba(201,168,76,0.025) 61px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .lock-seal {
+    width: 80px; height: 80px; border: 2px solid var(--gold);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px; position: relative;
+  }
+  .lock-seal::before {
+    content: ''; position: absolute; inset: 5px;
+    border: 1px solid rgba(201,168,76,0.3); border-radius: 50%;
+  }
+  .lock-seal svg { width: 36px; height: 36px; fill: var(--gold); opacity: 0.85; }
+  .lock-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 4vw, 2rem);
+    color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase;
+    text-align: center; margin-bottom: 6px;
+  }
+  .lock-subtitle {
+    font-family: 'IM Fell English', serif; font-style: italic;
+    font-size: 0.95rem; color: var(--gold-light); opacity: 0.7;
+    text-align: center; margin-bottom: 40px;
+  }
+  .lock-box {
+    background: rgba(201,168,76,0.04); border: 1px solid #4A3510;
+    padding: 36px 44px 40px; max-width: 360px; width: 100%; text-align: center;
+    position: relative;
+  }
+  .lock-box::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .lock-label {
+    font-family: 'Playfair Display', serif; font-size: 0.62rem;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-dark);
+    margin-bottom: 20px;
+  }
+  .pin-display {
+    display: flex; justify-content: center; gap: 12px; margin-bottom: 28px;
+  }
+  .pin-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid var(--gold-dark);
+    background: transparent; transition: background 0.15s ease;
+  }
+  .pin-dot.filled { background: var(--gold); border-color: var(--gold); }
+  .keypad {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  }
+  .key {
+    background: transparent; border: 1px solid #3A2A0A;
+    color: var(--gold-light); font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 600; padding: 16px 8px;
+    cursor: pointer; transition: all 0.15s ease; letter-spacing: 0.05em;
+  }
+  .key:hover { background: rgba(201,168,76,0.12); border-color: var(--gold-dark); }
+  .key:active { background: rgba(201,168,76,0.22); transform: scale(0.96); }
+  .key.wide { grid-column: span 3; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 13px 8px; }
+  .lock-error {
+    font-family: 'IM Fell English', serif; font-style: italic;
+    font-size: 0.82rem; color: var(--blood-light); margin-top: 16px;
+    min-height: 20px; letter-spacing: 0.04em; transition: opacity 0.3s;
+  }
+  .lock-rule {
+    display: flex; align-items: center; gap: 12px;
+    width: 80%; max-width: 300px; margin: 0 auto 32px;
+  }
+  .lock-rule::before, .lock-rule::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, #4A3510, transparent);
+  }
+  .lock-diamond { width: 5px; height: 5px; background: var(--gold-dark); transform: rotate(45deg); }
+</style>
+</head>
+<body>
+
+<!-- ── LOCK SCREEN ── -->
+<div class="lock-overlay" id="lockScreen">
+  <div class="lock-seal">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 10V7a6 6 0 0 0-12 0v3H4v12h16V10h-2zm-8-3a2 2 0 0 1 4 0v3h-4V7zm2 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+    </svg>
+  </div>
+  <div class="lock-title">The Morgan Estate</div>
+  <div class="lock-subtitle">Enter your personal access code</div>
+  <div class="lock-rule"><div class="lock-diamond"></div></div>
+  <div class="lock-box">
+    <div class="lock-label">Four-digit code</div>
+    <div class="pin-display">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="keypad">
+      <button class="key" onclick="pressKey('1')">1</button>
+      <button class="key" onclick="pressKey('2')">2</button>
+      <button class="key" onclick="pressKey('3')">3</button>
+      <button class="key" onclick="pressKey('4')">4</button>
+      <button class="key" onclick="pressKey('5')">5</button>
+      <button class="key" onclick="pressKey('6')">6</button>
+      <button class="key" onclick="pressKey('7')">7</button>
+      <button class="key" onclick="pressKey('8')">8</button>
+      <button class="key" onclick="pressKey('9')">9</button>
+      <button class="key" onclick="clearPin()">✕</button>
+      <button class="key" onclick="pressKey('0')">0</button>
+      <button class="key" onclick="backspace()">⌫</button>
+    </div>
+    <div class="lock-error" id="lockError"></div>
+  </div>
+</div>
+
+<svg style="display:none">
+  <symbol id="co" viewBox="0 0 32 32">
+    <path d="M2 2 L13 2 L13 4 L4 4 L4 13 L2 13 Z" fill="#C9A84C"/>
+    <circle cx="2" cy="2" r="1.5" fill="#C9A84C"/>
+  </symbol>
+</svg>
+
+<div class="masthead">
+  <div class="masthead-sub">New York — Winter, 1924</div>
+  <div class="rule"><div class="diamond"></div></div>
+  <h1>The Morgan Estate</h1>
+  <h2>Private Character Dossiers — For Your Eyes Only</h2>
+  <div class="rule"><div class="diamond"></div></div>
+  <div class="stamp">Strictly Confidential</div>
+</div>
+
+<div class="nav-bar">
+  <button class="nav-btn active"   onclick="show('victoria',this)">Victoria Morgan</button>
+  <button class="nav-btn" onclick="show('derek',this)">Derek Morgan</button>
+  <button class="nav-btn" onclick="show('edward',this)">Edward</button>
+  <button class="nav-btn" onclick="show('jessica',this)">Jessica</button>
+  <button class="nav-btn" onclick="show('henry',this)">Henry</button>
+  <button class="nav-btn" onclick="show('eleanor',this)">Eleanor / Margaret</button>
+  <button class="nav-btn" onclick="show('richard',this)">Richard Morgan</button>
+  <button class="nav-btn" onclick="show('christina',this)">Christina Langley</button>
+  <button class="nav-btn" onclick="show('finch',this)">Detective Finch</button>
+  <button class="nav-btn" onclick="show('lillian',this)">Lillian</button>
+  <button class="nav-btn" onclick="show('samuel',this)">Samuel</button>
+</div>
+
+<div class="sheets-wrap">
+
+<!-- ══════════ VICTORIA ══════════ -->
+<div class="sheet on" id="s-victoria">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Victoria Morgan</div>
+      <div class="char-sub"><b>Played by:</b> Victoria &nbsp;·&nbsp; <b>Role:</b> The Daughter — Tonight's Celebrant</div>
+      <div class="tags">
+        <span class="tag tg">The Daughter</span><span class="tag ts">Celebrant</span><span class="tag tb">Keeping Secrets</span>
+      </div>
+    </div>
+    <div class="mono">VM</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Victoria Morgan — Derek Morgan's only daughter, and tonight's guest of honour. This party is in your name: a celebration of your place in New York's finest social circles. You are dressed beautifully. You are smiling warmly at everyone who approaches. You are, by every outward measure, the picture of a woman at the height of her happiness.</p>
+      <p>Underneath that, you are holding yourself together with enormous effort, and you have been for quite some time.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">Your Marriage</div>
+      <p>You married Edward because your father approved of him, and because you were young enough to believe that approval and love were the same thing. They are not. The marriage has been, for several years, a performance executed by two people growing steadily less convinced by it. You have not been faithful, and you are aware that Edward has not been faithful either — and the particular shape of his unfaithfulness has been a slow, quiet wound that you have not yet decided what to do with.</p>
+      <p>Henry — your family's butler, a man you have known since childhood — has become something to you that you cannot name in polite company and cannot stop thinking about. This is either the most alive you have felt in years or the most dangerous situation you have ever been in. Perhaps both.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What Frightens You</div>
+      <p>Your father is a man of total certainties. His response to disappointment within the family has never been mercy — it has been calculation, and then consequence. Financial, social, absolute. You believe, with very little room for doubt, that he has sensed something is wrong, though you cannot tell how much he knows or from which direction the knowledge came. Richard has information about you. So does Christina Langley, who caught you in an unguarded moment some weeks ago and smiled at you in a way that contained the full weight of what she had witnessed.</p>
+    </div>
+    <div class="clue">
+      <b>What Has Caught Your Eye Tonight</b>
+      Lillian — the woman your father has been quietly keeping company with — arrived with an expression you cannot fully read. She is usually contained, gracious, practised. Tonight there is something underneath the surface that feels different. Tighter. As though she is waiting for something she is not looking forward to. You noticed her hands when she greeted your father. They did not relax the way they usually do.
+    </div>
+    <div class="clue2">
+      <b>A Darker Thought</b>
+      Your father's drink was left unattended near the sideboard for a stretch of time early in the evening. Your father never abandons a scotch. You don't know what it means. But you noticed it, and noticing it made you feel something you can't quite name — half relief, half shame about the relief.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Victoria Morgan</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ DEREK ══════════ -->
+<div class="sheet" id="s-derek">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Derek Morgan</div>
+      <div class="char-sub"><b>Played by:</b> Dalu &nbsp;·&nbsp; <b>Role:</b> The Patriarch — The Victim</div>
+      <div class="tags">
+        <span class="tag tg">Industrialist</span><span class="tag tb">The Victim</span><span class="tag ts">Morgan Dynasty</span>
+      </div>
+    </div>
+    <div class="mono">DM</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Derek Morgan — the most powerful man in any room you enter, and you have been for thirty years. You built the Morgan shipping empire from nothing, and your name is spoken across New York with equal parts admiration and carefully managed fear. You are silver-haired, unhurried, and possessed of a stillness that unnerves people who do not know you and unnerves people who do know you even more. You host tonight's celebration for your daughter Victoria because you love her in the only way you have ever known how to love anyone — completely, and on your own terms.</p>
+      <p>You have a heart condition. You manage it with medication you carry always. Only your physician and your son know. You assume no one else has noticed. You are probably wrong about this.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">Your Private Life</div>
+      <p>Lillian has been part of your life for several years now — quietly, privately, on terms that the public has never been given reason to examine. You are fond of her in the way a man is fond of something he believes he has earned. What you have not fully reckoned with is the possibility that Lillian's devotion to you is something other than what it appears. She is warm with you. She is always present. But there is, occasionally, a look that crosses her face when she believes you aren't watching — something faraway, something careful — that you have chosen not to examine too closely.</p>
+      <p>Your wife Eleanor is dead. This is what New York society believes, what your daughter Victoria believes, and what you have maintained without exception for years. The truth of what passed between you and Eleanor belongs in a locked room and you have no intention of opening it tonight or any other night.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What Is Weighing on You</div>
+      <p>Richard has debts. You have known about the gambling for years and tolerated it as you tolerate most of Richard's excesses — with a weary, private contempt. But the intelligence you have received in recent weeks suggests his debts are of a different category entirely, the kind that involve people whose patience is not expressed in letters. You have been revising your estate arrangements accordingly. You have not told Richard this. You have told no one except Samuel.</p>
+      <p>Christina Langley — your business partner of four years, the woman who has sat in your boardroom and co-signed your contracts — has been making enquiries, through intermediaries, that she does not believe you are aware of. She is moving very carefully. You have been moving more carefully still, and she does not know it yet.</p>
+    </div>
+    <div class="clue">
+      <b>Something Nagging at You Tonight</b>
+      There is a woman at this party — arrived under a guest name you accepted at face value — whose face has been producing in you a low, persistent sense of wrongness that you cannot source. You caught her profile across the room and felt something shift. You cannot place her. You are rarely unable to place people. This has been sitting with you since the first hour of the evening, and you have not been able to look away from her for long.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Derek Morgan</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ EDWARD ══════════ -->
+<div class="sheet" id="s-edward">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Edward</div>
+      <div class="char-sub"><b>Played by:</b> Wilson &nbsp;·&nbsp; <b>Role:</b> The Husband</div>
+      <div class="tags">
+        <span class="tag tg">Victoria's Husband</span><span class="tag tb">Unfaithful</span><span class="tag ts">Afraid</span>
+      </div>
+    </div>
+    <div class="mono">EW</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Edward — Victoria Morgan's husband, and tonight you are in your father-in-law's house, smiling at people you mostly find exhausting, celebrating a wife you have been deceiving for the better part of two years. You are good at the performance. You have had practice. You are charming when the occasion demands it, socially fluent, and skilled at appearing more comfortable than you are.</p>
+      <p>Derek Morgan has always made you feel like a document being audited. The man has a way of looking at you as though he is reading something you would prefer he hadn't found. You cannot tell, on any given evening, whether he knows something specific or whether that look is simply how he regards the world. Tonight, that ambiguity is more costly than usual.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">The Situation You Are In</div>
+      <p>You and Jessica — Victoria's closest friend — should not have started what you started. You knew this at the time and know it more clearly now. What you did not anticipate was the full weight of what Derek Morgan does to people who bring shame to his daughter's name. His responses are neither proportionate nor forgiving. You have seen it happen to people on the periphery of this family. The word "ruin" in his vocabulary is not a figure of speech.</p>
+      <p>Victoria knows. You've understood this for about three weeks — not because she said anything, but because of the way she has stopped asking you certain questions. Victoria, when she doesn't know something, asks about it. When she has already decided something, she goes quiet. She has been very quiet.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You've Noticed</div>
+      <p>Lillian arrived tonight carrying something beneath her composure. You have met her several times through Derek's social orbit and she has always been measured, even placid. Tonight there is a texture to her stillness that is different — wound rather than resting. Something is pressing on her from inside, and she is working to keep it from showing. You noticed it when she greeted Derek and her smile arrived a fraction of a second too late.</p>
+    </div>
+    <div class="clue">
+      <b>Something You'd Rather Not Have Seen</b>
+      Near the eastern corridor, early in the evening, you passed Henry — the butler — returning from the direction of the bathroom. He was unhurried, professional, entirely unremarkable. Except that he was carrying nothing, when every other time you have seen him move through this house, his hands have been occupied with something purposeful. A man in service does not wander. You thought nothing of it in the moment. You have been thinking about it since.
+    </div>
+    <div class="clue2">
+      <b>A Worry You're Carrying</b>
+      Detective Finch is here. You do not know why a detective attends a private family celebration. The explanation offered — a social connection to another guest — did not satisfy you. Finch has been watching the room the way a man watches a room he expects something to happen in. You have been giving him a very wide berth all evening.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Edward</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ JESSICA ══════════ -->
+<div class="sheet" id="s-jessica">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Jessica</div>
+      <div class="char-sub"><b>Played by:</b> Cynthia &nbsp;·&nbsp; <b>Role:</b> The Best Friend</div>
+      <div class="tags">
+        <span class="tag tg">Victoria's Friend</span><span class="tag tb">The Affair</span><span class="tag ts">A Perceptive Woman</span>
+      </div>
+    </div>
+    <div class="mono">JC</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Jessica — Victoria Morgan's oldest friend, her confidante since finishing school, the woman she calls first when anything goes wrong. You are warm, perceptive, quick-witted, and thoroughly at home in rooms like this one. You have known the Morgan family for years. Victoria loves you. That fact has not prevented you from doing what you have been doing, and you have made a difficult peace with that contradiction — most days.</p>
+      <p>Tonight is not most days. Tonight you are in Derek Morgan's house, and Victoria is watching the room with those still, careful eyes of hers, and you are quite afraid in a way you are working very hard not to show.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What Keeps You Up at Night</div>
+      <p>Derek Morgan's idea of protecting his daughter's reputation is not a metaphor. You have heard, through careful social listening over several years, what he has done to people who embarrassed the Morgan name in smaller ways than this. The word "ruin" does not begin to cover what a man like Derek Morgan, sufficiently motivated, is willing to do. And his daughter's husband conducting an affair with her oldest friend is — you are clear-eyed about this — the kind of thing that would motivate him considerably.</p>
+      <p>You also know, in the particular way that clever women know things, that Victoria has moved past suspicion and into certainty. She has not confronted either of you. That restraint worries you more than a confrontation would. Victoria restraining herself means Victoria is deciding something.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What Your Eyes Have Caught Tonight</div>
+      <p>Christina Langley is here as Derek's business partner and guest, which is known and unremarkable. What is less unremarkable is that she spent a considerable time near the study entrance earlier in the evening, and again near the large decorative chest in the corridor — not going in, not taking anything, but hovering in a way that had the specific quality of someone completing a task. You are very good at reading people's body language, and Christina's body language near that chest was not casual curiosity.</p>
+      <p>You also noticed the woman who arrived under an unfamiliar name — a guest no one seems to know well — making very slow, very deliberate progress around the perimeter of the room, always ending up with a clear view of Derek. That kind of patient positioning is not accidental.</p>
+    </div>
+    <div class="clue">
+      <b>A Detail You Filed Away</b>
+      Lillian — Derek's companion — was near the drinks arrangement early in the evening. She was doing something with her hands near the decanters that resolved itself too quickly for you to be certain of. You told yourself it was nothing. You are still telling yourself this, with slightly less conviction than you started with.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Jessica</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ HENRY ══════════ -->
+<div class="sheet" id="s-henry">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Henry</div>
+      <div class="char-sub"><b>Played by:</b> Ruyi &nbsp;·&nbsp; <b>Role:</b> The Butler</div>
+      <div class="tags">
+        <span class="tag tg">House Butler</span><span class="tag ts">Victoria's Secret</span><span class="tag tb">Entangled</span>
+      </div>
+    </div>
+    <div class="mono">HR</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Henry — the Morgan household's butler, and the most quietly informed person in this building. Eleven years in service to this family have made you an expert in their interior lives. You know where everything is kept: the silverware, the documents, the medication schedules, the arrangements the Morgans conduct behind closed doors. You carry this knowledge with the composure of a man who understands that information, held correctly, is the only currency available to someone in your position.</p>
+      <p>Tonight you move through the rooms with your usual efficiency. You are present everywhere and noticed nowhere. This is, as always, intentional.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">Your Private Situation</div>
+      <p>What developed between you and Victoria was not planned by either of you with any clarity. It grew slowly, in the particular proximity that domestic life creates between people who share a household without sharing a world. Victoria is in a marriage that has hollowed her out. You occupy a position that leaves no room for a personal life. Something opened between those two facts, and neither of you has found a way to close it.</p>
+      <p>You are not naive about what Derek Morgan would do if he knew. You have seen this man make decisions about people. You have watched him be thorough. The fear is real, and you have set it carefully to one side — not suppressed, just arranged where it won't affect your hands.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You Know — And What Weighs on You</div>
+      <p>Richard Morgan approached you several weeks ago with a series of small requests that individually seemed innocuous and collectively form a shape you have been trying not to look at directly. You answered what you could. You asked nothing further. Whether that was wisdom or cowardice you have not yet resolved.</p>
+      <p>You also overheard, quite by accident, a telephone conversation of Derek's two weeks ago. He used a name you recognised from the newspapers — one associated with the criminal organisation that has been tightening its grip on the city's commerce. His tone was contemptuous rather than afraid, which told you something about Derek. What it told you about Richard, whose name appeared a moment later in the same breath, told you considerably more.</p>
+    </div>
+    <div class="clue">
+      <b>What Has Unsettled You Tonight</b>
+      Christina Langley — Derek's business partner — has been to this house many times. You know her habits in it. Tonight her habits are different. She moved through two rooms with the specific economy of someone who is not browsing but completing, and she spent time near the study corridor that had a purposefulness you recognised without being able to name. Christina Langley is doing something tonight beyond attending a party. You are certain of it.
+    </div>
+    <div class="clue2">
+      <b>A Second Thought</b>
+      Lillian seemed, when she arrived, as though she had come to a decision. Not excited, not afraid — resolved. In eleven years you have learned to read the people in this house. That resolution was new. You do not know what it means. You have been watching her carefully since.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Henry</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ ELEANOR / MARGARET ══════════ -->
+<div class="sheet" id="s-eleanor">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Eleanor</div>
+      <div class="char-sub"><b>Played by:</b> Divine &nbsp;·&nbsp; <b>Tonight's Name:</b> Margaret &nbsp;·&nbsp; <b>Role:</b> The Presumed Dead</div>
+      <div class="tags">
+        <span class="tag tb">Presumed Dead</span><span class="tag tg">Investigative Reporter</span><span class="tag ts">Victoria's Mother</span>
+      </div>
+    </div>
+    <div class="mono">EL</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are Tonight</div>
+      <p>Tonight you are Margaret — a name on an invitation, a face no one here has reason to examine with any urgency. You have spent years ensuring that Eleanor Morgan remains officially dead in every record and every social memory that matters. You have been very thorough. No one in this room has recognised you yet. You intend to control exactly when that changes.</p>
+      <p>You are composed in the way of someone who has survived something that should not have been survivable. Fear, as a routine sensation, departed from your life some years ago. Derek Morgan stopped being someone you feared the moment you understood, with full clarity, what he was.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You Do Now</div>
+      <p>You are a journalist. One of the best working under a name that is not Eleanor Morgan, for a publication that does not flinch from uncomfortable material. The investigation that has consumed the last eighteen months of your life is the most significant you have undertaken. The criminal organisation expanding its grip on the eastern seaboard — growing bolder, reaching into legitimate business, into shipping, into finance — has been your primary subject. You have traced it carefully. You have documentation. What you have been assembling is the connection between its operations and the old money that has been quietly enabling it. You came tonight because you believe the Morgan estate sits at the centre of that connection.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">Why You Are Really Here</div>
+      <p>Victoria. Your daughter has grown up believing you are dead, and you have watched her from a careful distance for years — through intermediaries, through the society pages. She has become a woman under Derek's supervision, and there are things about that supervision that have produced in you a slow, sustained fury you have channelled entirely into your work. You have documentation of what Derek did to you — what he tried to do. You chose this evening because timing matters, and the timing is right.</p>
+      <p>There is also a name your source passed you before contact was severed — a name connected to the Morgan family and the organisation you've been investigating. You have a strong intuition about whose name it is. Tonight you intend to find out if you are correct.</p>
+    </div>
+    <div class="clue">
+      <b>What You've Observed From Your Vantage</b>
+      Lillian — the woman who seems to be here in the capacity of Derek's companion — has been holding herself with a particular tension all evening. You are a reporter; you have sat across from people carrying terrible things and learned to read the weight of them. Lillian is carrying something tonight. It is not grief and it is not excitement. It is the particular, private weight of someone who has made an irreversible decision and is waiting for it to matter. You have noted this and not looked away.
+    </div>
+    <div class="clue2">
+      <b>A Professional Instinct</b>
+      The man introduced as Detective Finch arrived, as far as you can tell, without a clear social connection to anyone in this room. The explanation offered circulated and dissolved without anyone being able to confirm its source. A detective at a private party, with no traceable invitation origin, is not a coincidence. In your experience, it is either surveillance or something considerably more direct.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Eleanor / Margaret</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ RICHARD ══════════ -->
+<div class="sheet" id="s-richard">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Richard Morgan</div>
+      <div class="char-sub"><b>Played by:</b> Prosper &nbsp;·&nbsp; <b>Role:</b> The Son</div>
+      <div class="tags">
+        <span class="tag tb">The Son</span><span class="tag ts">Cartel Debt</span><span class="tag tg">The Real Motive</span>
+      </div>
+    </div>
+    <div class="mono">RM</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Richard Morgan — Derek's son, the family's great and consistent disappointment, and the most entertaining person at any party you attend. You were supposed to carry the Morgan name into the next generation of industry. Instead you have spent your thirties being spectacular at everything that doesn't count: gambling, charm, expensive gestures, and a talent for being liked by people who should know better. Tonight you are here, you are smiling, and you are in the worst trouble of your life.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">The Debt</div>
+      <p>Eight months ago, in a sequence of decisions that seemed reasonable at each individual step and catastrophic in aggregate, you became entangled with a criminal organisation that has been expanding its operations along the eastern seaboard. What began as an introduction became an arrangement, and the arrangement became a number that makes you physically ill to think about. These are not people who send letters. The timeline they have communicated is not flexible.</p>
+      <p>Your father has revised his will. You know this because you have eyes in the right places — Samuel does not know how much you've managed to learn about the estate documents, and your father certainly doesn't. The revised inheritance will not cover what you owe. You have been thinking of very little else for six weeks, and you have reached the point where a man stops thinking about options and starts thinking about solutions.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You Hold Over Others</div>
+      <p>Information is the only currency you have left that costs nothing to carry. You know about Victoria and Henry — stumbled across it months ago and filed it carefully. You know about Edward and Jessica. You know things about Christina Langley's activities within your father's business that would end her relationship with him overnight. You have been holding all of this in reserve, the way a careful gambler holds the right card until the hand that matters.</p>
+    </div>
+    <div class="clue">
+      <b>What Is Occupying Your Mind Tonight</b>
+      The woman who arrived under the name "Margaret" has been watching your father with an attention that is not social and not hostile — something older and more deliberate. You have been watching her watching him, and something about the angle of her attention, the patience of it, the way it does not waver, has been producing in you a low and sourceless dread that you cannot explain and cannot shake.
+    </div>
+    <div class="clue2">
+      <b>A Thought You Are Trying Not To Have</b>
+      Lillian has been different this evening. You have always found her difficult to read — she is one of the few people in your orbit whose surface gives nothing away — but tonight the surface itself seems altered. As though the thing she is usually hiding has moved closer to it. You don't know what she would gain from your father's death. But then again, you have been in enough desperate situations to know that gain is only one of the reasons people do irreversible things.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Richard Morgan</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ CHRISTINA ══════════ -->
+<div class="sheet" id="s-christina">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Christina Langley</div>
+      <div class="char-sub"><b>Played by:</b> Chelsea &nbsp;·&nbsp; <b>Role:</b> The Business Partner</div>
+      <div class="tags">
+        <span class="tag tg">Business Partner</span><span class="tag tb">The Rival</span><span class="tag ts">Building an Empire</span>
+      </div>
+    </div>
+    <div class="mono">CL</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Christina Langley — Derek Morgan's business partner of four years, and one of the few women to have sat at the table of the Morgan empire with her name on contracts. You are ambitious, methodical, and possessed of a patience that people who underestimate you routinely fail to account for until it is too late. You built your position in Derek's professional world through intelligence, through utility, and through knowing exactly how much to reveal of yourself and exactly when.</p>
+      <p>Derek trusts you. He has told you things about his business, his family, and his plans that he has told very few other people. He believes you are a partner. He does not know what kind.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You Have Been Building</div>
+      <p>Over four years, you have been learning the Morgan empire from the inside — its structures, its vulnerabilities, its dependencies, its debts. You have been patient in a way that has required extraordinary discipline. What you are executing is not theft, precisely, but something more elegant: a transfer. Piece by piece, quietly, through documentation that is almost entirely legitimate, you have been repositioning certain assets within the Morgan business in a direction that will matter enormously when the dust settles.</p>
+      <p>The letter — the business transfer document — is the most significant move you have made. It required careful preparation. It is in position. When it is found, it will speak for itself. Whether Derek is alive to dispute it at that point is, in your calculation, the variable that changes everything.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You've Observed</div>
+      <p>Victoria saw you near the study corridor tonight, and her expression when she looked away told you that she filed it. Victoria Morgan is more observant than her social performance suggests, and she is also frightened of something this evening — which means she is both a potential witness to your movements and a potential ally, depending on how things resolve. You have not decided how to regard her yet.</p>
+      <p>Lillian has been composing herself all evening with the specific effort of someone managing something large from the inside. You and Lillian have moved in overlapping circles through Derek's world for three years, and you have always found her difficult to fully account for. Tonight she is harder to account for than usual, and that interests you.</p>
+    </div>
+    <div class="clue">
+      <b>Something That Has Made You Careful</b>
+      Samuel — the lawyer — glanced at you when he arrived. One glance, perfectly controlled, gone in an instant. Samuel is very good at controlled things. He is also the one person in this room who understands Derek's documents as well as you do, and who has therefore the most capacity to notice if something is not quite right with a particular piece of correspondence. You have been aware of where he is in the room all evening.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Christina Langley</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ DETECTIVE FINCH ══════════ -->
+<div class="sheet" id="s-finch">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Detective Finch</div>
+      <div class="char-sub"><b>Played by:</b> Funto &nbsp;·&nbsp; <b>Role:</b> The Detective</div>
+      <div class="tags">
+        <span class="tag tg">Law Enforcement</span><span class="tag tb">Hired</span><span class="tag ts">A Man of Receipts</span>
+      </div>
+    </div>
+    <div class="mono">DF</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Detective Finch — fifteen years on the force, a case clearance rate your superiors find impressive, a reputation as a man who follows evidence wherever it leads. This reputation is mostly accurate. A man can do a great deal of legitimate work and still have one or two rooms in his professional life that he keeps locked. You have made your peace with what you are. The peace holds on most days.</p>
+      <p>You move through parties like this one with the ease of a man who has learned to make his watchfulness look like social curiosity. People expect detectives to be interested in things. That expectation is the finest cover a person in your position could ask for.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">Why You Are Here</div>
+      <p>You were engaged over three private meetings in the past month. The arrangement was financial, specific, and negotiated with language that leaves no useful record. The party who engaged you has a compelling reason rooted in money, inheritance, and a timeline driven by the kind of debt that cannot be deferred. You asked only what you needed to know. You have always found that the less you know, the cleaner the arrangement.</p>
+      <p>You are a professional. Tonight you will conduct yourself professionally. When something happens and you are asked to begin an investigation, you will conduct that investigation with complete and visible dedication. You are very good at looking for things and finding different things.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What Your Professional Eye Has Caught</div>
+      <p>Henry — the butler — visited the bathroom corridor once, early in the evening, and returned with the stillness of a man who has completed something rather than attended to something. The distinction is subtle. You are paid to notice subtle things. You have noted it without acting on it, because it is useful to have a name in reserve when an investigation requires direction.</p>
+      <p>Christina Langley has been moving through the rooms with the efficiency of someone executing a plan on a timeline. She visited the study corridor twice and the area near the decorative chest at least once. You do not know what she was doing. You know the quality of intentional movement, and hers tonight has had it.</p>
+    </div>
+    <div class="clue">
+      <b>The One Thing You Did Not Anticipate</b>
+      The woman who arrived as "Margaret" has been watching Derek Morgan with the patience of someone who has been patient for years and is finally, tonight, running out of it. You have been attempting, since you arrived, to place her face. You have not succeeded. A woman at this party with a false name and an old, specific grievance against Derek Morgan is not a variable you were told to expect. You have been watching her watching him, and you cannot decide if she is a complication or an opportunity.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Detective Finch</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ LILLIAN ══════════ -->
+<div class="sheet" id="s-lillian">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Lillian</div>
+      <div class="char-sub"><b>Played by:</b> Lele &nbsp;·&nbsp; <b>Role:</b> The Artist — Derek's Companion</div>
+      <div class="tags">
+        <span class="tag tg">The Artist</span><span class="tag tb">Derek's Companion</span><span class="tag ts">A Woman Divided</span>
+      </div>
+    </div>
+    <div class="mono">LL</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Lillian — an artist working in watercolour and ink, with a modest reputation in New York's smaller galleries and a circle of collectors who find your work quietly remarkable. You are composed, gracious, and skilled at making other people feel seen — which is, in some ways, a painter's professional habit and in other ways the thing that got you into the situation you are currently in.</p>
+      <p>You have been in Derek Morgan's life for several years as his companion. This arrangement did not begin with love, and it has not become love. It began with proximity, and it has continued out of something that sits between obligation and fear — because Derek Morgan is not a man who lets things go, and you learned this early enough that leaving has never felt like a door that was fully open to you.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">The Truth You Carry</div>
+      <p>You are in love with Samuel. This has been true for four years — quietly, privately, in the way that feelings are when there is no room in your life to act on them. Samuel is careful, thoughtful, and deeply decent, and every quality that makes him decent is a quality that makes your situation with Derek more suffocating by comparison. You have not told Samuel how you feel. You have not allowed yourself to, because the moment you do, something will have to change, and the shape of that change frightens you.</p>
+      <p>What Derek would do if he knew — what he would do to Samuel — is not something you examine directly. You keep it at a distance, as a reason to continue as you are. As a reason not to act. You have been keeping it at that distance for a long time.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You Know About This House</div>
+      <p>You have moved through Derek's world long enough to see its interior. You know about Richard's debts — Derek spoke of them with contempt once, believing you weren't attending fully. You know that Christina Langley is not simply a business partner, that her interest in the Morgan empire is acquisitive in a way Derek has not fully recognised. You have tried, once, to suggest this to him obliquely. He dismissed it without hearing it. Derek Morgan does not hear things he has not decided to listen to.</p>
+    </div>
+    <div class="clue">
+      <b>What You've Noticed Tonight</b>
+      Edward — Victoria's husband — has been watching everyone with the taut attention of a man waiting to see which direction a threat is going to come from. He noticed you near the drinks arrangement early in the evening. You saw him file it. You know what that look means; it is the look of a person assembling a case they hope not to need. Whether he saw what he thinks he saw is something only you know.
+    </div>
+    <div class="clue2">
+      <b>Something You Can't Stop Thinking About</b>
+      Richard Morgan passed you near the east corridor an hour ago and smiled at you in a way that was not social. It was the smile of a man who has decided something and found it steadying. Richard's usual smile is performed. This one was not. You have been turning it over since, unable to determine what it means, and unable to stop trying.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Lillian</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+<!-- ══════════ SAMUEL ══════════ -->
+<div class="sheet" id="s-samuel">
+<div class="paper">
+  <div class="co tl"><svg><use href="#co"/></svg></div><div class="co tr"><svg><use href="#co"/></svg></div>
+  <div class="co bl"><svg><use href="#co"/></svg></div><div class="co br"><svg><use href="#co"/></svg></div>
+  <div class="ph">
+    <div>
+      <div class="char-name">Samuel</div>
+      <div class="char-sub"><b>Played by:</b> Samuel &nbsp;·&nbsp; <b>Role:</b> The Lawyer</div>
+      <div class="tags">
+        <span class="tag tg">Estate Counsel</span><span class="tag ts">Keeper of the Will</span><span class="tag tb">A Man in Love</span>
+      </div>
+    </div>
+    <div class="mono">SL</div>
+  </div>
+  <div class="pb">
+    <div class="sec">
+      <div class="sec-title">Who You Are</div>
+      <p>You are Samuel — Derek Morgan's solicitor for twelve years, and the keeper of more Morgan family confidences than any other living person. You have handled Derek's legal affairs in their entirety: the contracts, the property arrangements, the estate revisions, and the occasional matter requiring the kind of discretion that does not appear on an invoice. You are meticulous, measured, and trusted absolutely by your client. You carry that trust carefully, because you are aware that trust, misplaced, is simply liability with a warmer name.</p>
+      <p>You are also, in the part of your life that has nothing to do with the Morgans, quietly and comprehensively in love with Lillian. This has been true for four years. The situation is impossible, which is a thing you understand with complete clarity and have chosen not to allow to be the final word on the matter. You are patient. You are very good at patient.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You Know Professionally</div>
+      <p>Derek recently revised his will for the second time in eight months. You prepared the documentation. The changes are significant — they reflect a shift in Derek's thinking about his children, about Lillian, and about the future of the Morgan estate that would surprise nearly every person in this room if they heard it. The document is confidential. What you can say, to yourself alone, is that what it contains will not land quietly when it is read aloud.</p>
+      <p>The business transfer correspondence — the letter relating to certain Morgan company assets — was drafted by you some months ago at Derek's instruction. You have been aware, in the past few weeks, of a faint wrongness around that document: a sense that the version you drafted and the version that currently exists in the world may not be identical. You have not been able to confirm this. It has been sitting in the back of your mind like a splinter.</p>
+    </div>
+    <div class="div"><span>◆</span></div>
+    <div class="sec">
+      <div class="sec-title">What You've Been Watching</div>
+      <p>Christina Langley is someone you have always watched carefully, professionally. She is exceptionally competent, which in a business partner is an asset and in an adversary is a concern. Tonight she has been moving through the rooms with a focus that is not social — visiting the study corridor, lingering near the decorative chest. You have said nothing. You have noted the time of each movement. You are very good at noting things.</p>
+      <p>Richard Morgan has not approached you once this evening. In twelve years he has always found a way to probe, casually, at the edges of his father's estate plans. The absence of that ritual tonight is its own kind of information, and you have been considering what it means since you arrived.</p>
+    </div>
+    <div class="clue">
+      <b>What You Cannot Stop Thinking About</b>
+      Lillian is here, which you knew. She is also different tonight — carrying something that has moved closer to the surface than she usually allows. You know her well enough to read the small distances between her expressions, the ones no one else would notice. She is resolved about something. Whether that something is about Derek, or about the two of you, or about something else entirely, you cannot determine. You have been watching her from across the room all evening with the specific patience of a man who is very afraid of what he might be about to understand.
+    </div>
+  </div>
+  <div class="pf"><span>The Morgan Estate — 1924</span><span>Samuel — Solicitor</span><span>Do not share this document</span></div>
+</div>
+</div>
+
+</div><!-- end sheets-wrap -->
+
+<script>
+  // ── PASSWORD MAP ──
+  // Each 4-digit code unlocks one character's dossier
+  const CODES = {
+    '1924': 'victoria',   // The year — her celebration
+    '1887': 'derek',      // Birth year of a 1924 patriarch in his late 60s
+    '7734': 'edward',     // "hELL" upside-down on a calculator — his situation
+    '2211': 'jessica',    // Two people, two lies
+    '1111': 'henry',      // The butler — constant, uniform, invisible
+    '0000': 'eleanor',    // She is officially nothing — a dead woman
+    '8008': 'richard',    // Old slang for a fool in financial ruin
+    '4444': 'christina',  // Four years building her quiet takeover
+    '1312': 'finch',      // Badge-number energy
+    '3691': 'lillian',    // Scattered like brushstrokes — the artist's code
+    '1847': 'samuel'      // Year New York formally regulated the legal profession
+  };
+
+  let pin = '';
+
+  function pressKey(k) {
+    if (pin.length >= 4) return;
+    pin += k;
+    updateDots();
+    if (pin.length === 4) setTimeout(checkPin, 180);
+  }
+
+  function backspace() {
+    pin = pin.slice(0, -1);
+    updateDots();
+    setError('');
+  }
+
+  function clearPin() {
+    pin = '';
+    updateDots();
+    setError('');
+  }
+
+  function updateDots() {
+    for (let i = 0; i < 4; i++) {
+      document.getElementById('d' + i).classList.toggle('filled', i < pin.length);
+    }
+  }
+
+  function setError(msg) {
+    document.getElementById('lockError').textContent = msg;
+  }
+
+  function checkPin() {
+    const character = CODES[pin];
+    if (character) {
+      // Unlock — hide lock screen completely
+      document.getElementById('lockScreen').style.display = 'none';
+      // Hide the nav bar entirely — players must not be able to switch sheets
+      document.querySelector('.nav-bar').style.display = 'none';
+      // Hide all sheets
+      document.querySelectorAll('.sheet').forEach(el => el.classList.remove('on'));
+      // Show only the unlocked character's sheet
+      document.getElementById('s-' + character).classList.add('on');
+    } else {
+      setError('That code is not recognised. Try again.');
+      // Shake dots
+      const pd = document.querySelector('.pin-display');
+      pd.style.transform = 'translateX(-6px)';
+      setTimeout(() => pd.style.transform = 'translateX(6px)', 80);
+      setTimeout(() => pd.style.transform = 'translateX(-4px)', 160);
+      setTimeout(() => pd.style.transform = 'translateX(0)', 240);
+      pin = '';
+      setTimeout(updateDots, 260);
+    }
+  }
+
+  // Nav bar is hidden after login — players are locked to their own sheet only
+  function show(id, btn) { return; }
+</script>
+</body>
+</html>
